@@ -42,6 +42,7 @@ erDiagram
       text     content          "NOT NULL, 150字以内"
       string   display_nickname "任意"
       datetime created_at       "NOT NULL"
+      datetime updated_at       "NOT NULL"
     }
 
     %% リレーション
