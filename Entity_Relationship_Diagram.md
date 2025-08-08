@@ -1,6 +1,6 @@
 ### ER図
 （ER図のスクリーンショットの画像）
-<img width="593" height="796" alt="image" src="https://github.com/user-attachments/assets/141f836c-3a86-48c3-9eb4-c6b0575199c2" />
+[![Image from Gyazo](https://i.gyazo.com/6c3682b0324603bf2d66feda45ff13a1.png)](https://gyazo.com/6c3682b0324603bf2d66feda45ff13a1)
 
 
 ### 本サービスの概要（700文字以内）
