@@ -2,6 +2,10 @@
 ### 画面遷移図
 [Figma](https://www.figma.com/board/1bgyuzOPJ65HGPDn6LEEYY/0722_%E3%81%B2%E3%81%A8%E3%81%93%E3%81%A8%E7%B7%B4%E7%BF%92%E3%82%A2%E3%83%97%E3%83%AA_UI%E7%94%BB%E9%9D%A2%E9%81%B7%E7%A7%BB%E5%9B%B3?node-id=0-1&t=FEqB2HPt1QjFxu43-1)
 
+### ER図リンク
+[ER図](https://github.com/Masashi0411/Kata_Talk_app/blob/Entity_Relationship_Diagram/Entity_Relationship_Diagram.md)
+
+
 ### プロトタイプ
 [プロトタイプ](https://www.figma.com/proto/YZ9ve4nXgmrZyQEYu0veSV/0731_%E3%82%AB%E3%82%BF%E3%83%88%E3%83%BC%E3%82%AF_%E3%83%97%E3%83%AD%E3%83%88%E3%82%BF%E3%82%A4%E3%83%97?node-id=21-53&t=UYPJtOQASxT7jInW-0&scaling=scale-down&content-scaling=fixed&starting-point-node-id=21%3A53)
 
