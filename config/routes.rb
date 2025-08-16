@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
-  resources :posts
-  root "posts#index"
+  # resources :posts
+  # root "posts#index"
+  root "pages#home"
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -14,4 +15,6 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+  get "today",    to: "phrases#today",    as: :today_phrase
+  get "timeline", to: "posts#index",      as: :timeline
 end
