@@ -10,6 +10,8 @@ class PostsController < ApplicationController
     @posts = @tip ? @tip.posts.order(created_at: :desc) : Post.none
   end
 
+  def new; end     # 練習ページ
+
   # POST /posts
   def create
     @post = Post.new(post_params)

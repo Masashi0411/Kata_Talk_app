@@ -17,10 +17,15 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   # 今日のひとこと（今日 or 最寄りTipを1件表示）
-  get  "today",    to: "phrases#today", as: :today_phrase
+  # get  "today",    to: "phrases#today", as: :today_phrase
+  get "today", to: "tips#today"
+
+  get "practice", to: "posts#new"      # 練習ページ（投稿作成）
+  get "drills",   to: "posts#index"    # みんなのひとこと（投稿一覧）
+  get "dashboard", to: "pages#dashboard" # マイページ（仮）
 
   # タイムライン（当日 or 直近Tipに紐づく投稿一覧）
-  get  "timeline", to: "posts#index",   as: :timeline
+  get "timeline", to: "posts#index",   as: :timeline
 
   # 投稿作成のみ許可（MVP）
   resources :posts, only: [ :create ]
