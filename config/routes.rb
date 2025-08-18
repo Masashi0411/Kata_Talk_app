@@ -23,5 +23,5 @@ Rails.application.routes.draw do
   get  "timeline", to: "posts#index",   as: :timeline
 
   # 投稿作成のみ許可（MVP）
-  resources :posts, only: [:create]
+  resources :posts, only: [ :create ]
 end
