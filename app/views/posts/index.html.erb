@@ -1,1 +1,25 @@
-<h1>みんなのひとこと（Timeline）</h1>
+<h1 class="text-2xl font-bold">みんなのひとこと</h1>
+
+<% if @tip.present? %>
+  <div class="mt-3 text-sm text-gray-500">
+    対象TIP：<%= l(@tip.scheduled_date, format: :long) %>
+  </div>
+
+  <% if @posts.any? %>
+    <ul class="mt-4 space-y-3">
+      <% @posts.each do |post| %>
+        <li class="border rounded-xl p-3 bg-white">
+          <div class="text-sm text-gray-500">
+            <%= post.display_nickname.presence || "名無しさん" %>
+            ・ <%= l(post.created_at, format: :short) %>
+          </div>
+          <div class="mt-1 whitespace-pre-wrap"><%= post.content %></div>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="mt-4 text-gray-600">まだ投稿はありません。</p>
+  <% end %>
+<% else %>
+  <p class="mt-4 text-gray-600">対象の Tip が見つかりませんでした。</p>
+<% end %>
