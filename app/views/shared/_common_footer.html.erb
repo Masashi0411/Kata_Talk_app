@@ -1,0 +1,6 @@
+<footer class="fixed bottom-0 inset-x-0 h-14 bg-surface border-t border-neutralGray px-4 flex justify-around items-center">
+  <%= footer_tab 'マイページ', dashboard_path, "circle-user", current_page?(dashboard_path) %>
+  <%= footer_tab '今日', today_path, "message-square-text", current_page?(today_path) %>
+  <%= footer_tab '練習', practice_path, "edit-3", current_page?(practice_path) %>
+  <%= footer_tab 'みんな', drills_path, "list", current_page?(drills_path) %>
+</footer>

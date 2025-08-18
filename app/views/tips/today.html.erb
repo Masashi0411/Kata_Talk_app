@@ -1,0 +1,25 @@
+<%= render "shared/common_header" %>
+
+<main class="p-4">
+  <% if @tip.present? %>
+    <h1 class="text-heading-lg font-semibold text-textPrimary mb-4">
+      <%= @tip.content %>
+    </h1>
+
+    <%= link_to "このひとことで話してみる", practice_path(tip_id: @tip.id),
+          class: "block btn-primary text-center mt-6" %>
+
+    <div class="flex justify-between mt-4 text-label-sm text-accentBlue">
+      <% if @prev_tip %>
+        <%= link_to "前のひとこと", today_path(date: @prev_tip.scheduled_date) %>
+      <% end %>
+      <% if @next_tip %>
+        <%= link_to "次のひとこと", today_path(date: @next_tip.scheduled_date) %>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-body-md text-textSecondary">本日のひとことは準備中です</p>
+  <% end %>
+</main>
+
+<%= render "shared/common_footer" %>
