@@ -15,6 +15,13 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  get "today",    to: "phrases#today",    as: :today_phrase
-  get "timeline", to: "posts#index",      as: :timeline
+
+  # 今日のひとこと（今日 or 最寄りTipを1件表示）
+  get  "today",    to: "phrases#today", as: :today_phrase
+
+  # タイムライン（当日 or 直近Tipに紐づく投稿一覧）
+  get  "timeline", to: "posts#index",   as: :timeline
+
+  # 投稿作成のみ許可（MVP）
+  resources :posts, only: [:create]
 end
