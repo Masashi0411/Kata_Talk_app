@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   get "dashboard", to: "pages#dashboard" # マイページ（仮）
 
   # タイムライン（当日 or 直近Tipに紐づく投稿一覧）
-  get "timeline", to: "posts#index",   as: :timeline
+  # get "timeline", to: "posts#index",   as: :timeline
 
   # 投稿作成のみ許可（MVP）
   resources :posts, only: [ :create ]
