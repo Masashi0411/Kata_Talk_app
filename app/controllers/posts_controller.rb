@@ -1,35 +1,23 @@
-# タイムライン＆投稿作成
+# app/controllers/posts_controller.rb
 class PostsController < ApplicationController
-  # GET /timeline
-  # - 基本は今日のTip、なければ直近Tipの投稿を新しい順で表示
   def index
-    @tip =
-      Tip.where(scheduled_date: Date.current).first ||
-      Tip.order(scheduled_date: :desc).first
+    @tip = find_tip!
+    @posts = @tip.posts.order(created_at: :desc).limit(50).includes(:tip)
 
-    @posts = @tip ? @tip.posts.order(created_at: :desc) : Post.none
-  end
+    @highlight_post_id = params[:highlight_post_id].presence || session[:last_post_id]
 
-  def new; end     # 練習ページ
-
-  # POST /posts
-  def create
-    @post = Post.new(post_params)
-
-    if @post.save
-      redirect_to timeline_path, notice: "投稿しました。"
-    else
-      # today での投稿失敗を想定して、同じコンテキストで再表示
-      @tip = @post.tip
-      flash.now[:alert] = @post.errors.full_messages.to_sentence
-      render "phrases/today", status: :unprocessable_entity
-    end
+    @prev_tip = Tip.where("scheduled_date < ?", @tip.scheduled_date).order(scheduled_date: :desc).first
+    @next_tip = Tip.where("scheduled_date > ?", @tip.scheduled_date).order(scheduled_date: :asc).first
   end
 
   private
 
-  # Strong Parameters（MVP 要件）
-  def post_params
-    params.require(:post).permit(:tip_id, :content, :display_nickname)
+  # 今日のTIPが無ければ直近の公開済TIPを返す
+  def find_tip!
+    return Tip.find(params[:tip_id]) if params[:tip_id].present?
+
+    Tip.find_by(scheduled_date: Date.current) ||
+      Tip.where("scheduled_date <= ?", Date.current).order(scheduled_date: :desc).first ||
+      Tip.order(scheduled_date: :asc).first # データ完全空の保険
   end
 end
