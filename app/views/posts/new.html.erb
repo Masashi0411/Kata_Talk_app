@@ -1,4 +1,72 @@
-<!-- app/views/posts/new.html.erb -->
 <%= render "shared/common_header" %>
-<main class="p-4">練習ページ（準備中）</main>
+
+<main class="bg-background min-h-screen pb-20 px-4 pt-4">
+  <section class="mb-4">
+    <h1 class="text-heading-lg font-semibold text-textPrimary">日常のひとコマで練習</h1>
+    <% if @tip %>
+      <p class="text-body-md text-textSecondary mt-1">
+        今日のひとこと：<span class="text-textPrimary"><%= @tip.content %></span>
+      </p>
+    <% else %>
+      <p class="text-body-md text-textSecondary mt-1">投稿対象のひとことが見つかりません。</p>
+    <% end %>
+  </section>
+
+  <!-- シーン説明カード -->
+  <section class="bg-surface shadow-sm rounded-lg p-4 border border-neutralGray mb-4">
+    <p class="text-body-md text-textPrimary">
+      会議前のアイスブレイク。隣の人が同じペンを使っているのに気づいたとき、どう声をかけますか？
+    </p>
+  </section>
+
+  <% if flash[:notice] %>
+    <div class="mb-3 text-label-sm text-accentBlue"><%= flash[:notice] %></div>
+  <% end %>
+  <% if flash[:alert] %>
+    <div class="mb-3 text-label-sm text-[#c0392b]"><%= flash[:alert] %></div>
+  <% end %>
+
+  <!-- ★ 投稿停止中の案内を追加 -->
+<% unless posts_enabled? %>
+  <div class="mb-4 p-3 rounded bg-neutralGray text-label-sm text-textSecondary">
+    現在、投稿は一時停止中です（画面表示や遷移のみ確認できます）。
+  </div>
+<% end %>
+
+  <%= form_with url: practice_path,
+              scope: :post,
+              method: :post,
+              data: { turbo: false },
+              class: "space-y-4" do |f| %>
+    <%= hidden_field_tag :tip_id, @tip&.id %>
+
+    <!-- 自由入力 150字 -->
+    <div>
+      <label class="block text-label-sm text-textSecondary mb-1">回答（150字）</label>
+      <%= f.text_area :content,
+            maxlength: 150,
+            rows: 5,
+            required: true,
+            class: "w-full h-28 rounded-sm border border-neutralGray px-4 py-2 text-body-md text-textPrimary bg-surface" %>
+      <p class="text-label-sm text-textSecondary mt-1">※ 150字以内で入力してください</p>
+    </div>
+
+    <!-- ニックネーム -->
+    <div>
+      <label class="block text-label-sm text-textSecondary mb-1">ニックネーム</label>
+      <%= f.text_field :display_nickname,
+            placeholder: "例）まさくん",
+            class: "w-full h-11 rounded-sm border border-neutralGray px-4 text-body-md text-textPrimary bg-surface" %>
+    </div>
+
+    <%= f.submit "書いてみる",
+      disabled: !posts_enabled?,
+      class: [
+        "w-full h-12 rounded-lg text-body-md font-medium transition",
+        posts_enabled? ? "bg-primaryOrange text-white hover:bg-[#FF9F2E]" :
+                         "bg-neutralGray text-textSecondary opacity-60 cursor-not-allowed"
+      ].join(" ") %>
+  <% end %>
+</main>
+
 <%= render "shared/common_footer" %>

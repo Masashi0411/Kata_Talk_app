@@ -27,6 +27,7 @@ services:
       - node_modules:/myapp/node_modules
     environment:
       TZ: Asia/Tokyo
+      ENABLE_POSTS: "1"   # ← これを追加（文字列でOK）
     ports:
       - "3000:3000"
     depends_on:
