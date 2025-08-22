@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   root "pages#home"
 
   # TIP一覧
-  resources :tips, only: [:index, :show]
+  resources :tips, only: [ :index, :show ]
 
   # 今日のひとこと（今日 or 最寄りTipを1件表示）
   get "today", to: "tips#today"
@@ -15,6 +15,6 @@ Rails.application.routes.draw do
   get  "practice", to: "posts#new"
   post "practice", to: "posts#create"
 
-  resources :drills, only: [:index]
-  resources :posts, only: [:new, :create]
+  resources :drills, only: [ :index ]
+  resources :posts, only: [ :new, :create ]
 end
