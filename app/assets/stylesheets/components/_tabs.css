@@ -1,0 +1,6 @@
+.tab {
+  @apply px-4 py-2 rounded-full text-body-sm text-textSecondary border border-neutralGray;
+}
+.tab.active {
+  @apply bg-accentBlue text-white font-semibold;
+}

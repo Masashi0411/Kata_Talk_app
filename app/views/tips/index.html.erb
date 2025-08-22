@@ -1,0 +1,34 @@
+<%= render "shared/common_header" %>
+
+<main class="bg-background min-h-screen pb-20 px-4 pt-4">
+  <h1 class="text-heading-lg font-semibold text-textPrimary mb-4">今日のひとこと一覧</h1>
+
+  <!-- 並べ替えタブ -->
+  <div class="flex gap-4 mb-6">
+    <%= link_to "新着順", tips_path(order: :recent),
+          class: "tab #{params[:order] != 'likes' ? 'active' : ''}" %>
+    <%= link_to "いいね順", tips_path(order: :likes),
+          class: "tab #{params[:order] == 'likes' ? 'active' : ''}" %>
+  </div>
+
+  <!-- TIPカード一覧 -->
+  <div class="space-y-4">
+    <% @tips.each_with_index do |tip, i| %>
+      <%= link_to drills_path(tip_id: tip.id),
+                  class: "block bg-surface shadow-sm rounded-lg p-4 border border-neutralGray" do %>
+        <h3 class="text-body-md font-semibold text-textPrimary">
+          <%= tip.content.truncate(30) %>
+        </h3>
+        <p class="text-label-sm text-textSecondary mt-1">
+          投稿日: <%= tip.scheduled_date %>　投稿数: <%= tip.posts.count %>
+        </p>
+      <% end %>
+
+      <% if (i + 1) % 5 == 0 %>
+        <div class="bg-neutralGray/20 text-center py-6 rounded-lg">[AdBannerInline]</div>
+      <% end %>
+    <% end %>
+  </div>
+</main>
+
+<%= render "shared/common_footer" %>
