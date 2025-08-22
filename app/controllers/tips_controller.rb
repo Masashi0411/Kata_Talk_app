@@ -7,8 +7,8 @@ class TipsController < ApplicationController
     @tips = case order.to_sym
     when :likes
               Tip.left_joins(:posts) # いいね実装がまだなら仮に投稿数順
-                 .group(:id)
-                 .order("COUNT(posts.id) DESC")
+                .group(:id)
+                .order("COUNT(posts.id) DESC")
     else
               Tip.order(scheduled_date: :desc) # 新着順
     end
