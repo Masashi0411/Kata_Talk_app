@@ -1,24 +1,32 @@
 # app/models/tip.rb
 # == Schema Information
-#  scheduled_date :date     # そのTIPの“日付”
-#  content        :text     # ひとこと本文 など
+# Table name: tips
 #
-# このモデルは、日付ベースで1日1TIPを想定（運用で1日複数が必要なら後述）
+#  id             :bigint           not null, primary key
+#  content        :text             not null
+#  scheduled_date :date             not null, indexed (unique)
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#
 class Tip < ApplicationRecord
-  # バリデーション（1日1TIPが前提ならuniqueを推奨）
+  # Post との関連が無いと @tip.posts で落ちます
+  has_many :posts, dependent: :destroy
+
+  # 1日1TIP運用ならバリデーション推奨（DBはunique index済み）
   validates :scheduled_date, presence: true, uniqueness: true
+  validates :content, presence: true
 
   # よく使うクエリ
   scope :on,     ->(date) { where(scheduled_date: date) }
   scope :before, ->(date) { where("scheduled_date < ?", date) }
-  scope :after,  ->(date) { where("scheduled_date > ?", date) }
+  scope :after,  ->(date)  { where("scheduled_date > ?", date) }
 
-  # 今日のTIP（明示的にタイムゾーンを使う）
+  # 今日のTIP（Time.zone.today を使う前提）
   def self.today(date = Time.zone.today)
     on(date).first
   end
 
-  # 指定TIPの前/次（存在しなければnil）
+  # 指定TIPの前/次（存在しなければ nil）
   def self.previous_of(tip)
     before(tip.scheduled_date).order(scheduled_date: :desc).first
   end
