@@ -1,33 +1,29 @@
 # app/controllers/tips_controller.rb
 class TipsController < ApplicationController
-  def index
-    # 並べ替えパラメータを解釈
-    order = params[:order] || :recent
+  # 今日 or 任意日（params[:date]）のTIPを出し、前後TIPリンクを出す
+  def show_today
+    base_date = _parse_date(params[:date]) || Time.zone.today
 
-    @tips = case order.to_sym
-    when :likes
-              Tip.left_joins(:posts) # いいね実装がまだなら仮に投稿数順
-                .group(:id)
-                .order("COUNT(posts.id) DESC")
-    else
-              Tip.order(scheduled_date: :desc) # 新着順
+    # その日のTIPを取る（なければ “直近の過去→未来” の順でフォールバックしたい場合はコメント外す）
+    @tip = Tip.on(base_date).first
+    # フォールバックを入れたい場合（任意）：
+    # @tip ||= Tip.before(base_date).order(scheduled_date: :desc).first
+    # @tip ||= Tip.after(base_date).order(scheduled_date: :asc).first
+
+    if @tip.present?
+      @prev_tip = Tip.previous_of(@tip)
+      @next_tip = Tip.next_of(@tip)
     end
+
+    # ビュー名を today に合わせる（今のファイル構成を活かす）
+    render :today
   end
 
-  # 詳細ページは作らず、投稿一覧へ誘導
-  def show
-    tip = Tip.find(params[:id])
-    redirect_to drills_path(tip_id: tip.id)
-  end
+  private
 
-  def today
-    @tip = Tip.find_by(scheduled_date: Date.current)
-
-    # TIPが無い場合はフォールバック
-    @tip ||= Tip.where("scheduled_date <= ?", Date.current).order(scheduled_date: :desc).first
-
-    # 前後TIP（ナビゲーション用）
-    @prev_tip = Tip.where("scheduled_date < ?", Date.current).order(scheduled_date: :desc).first
-    @next_tip = Tip.where("scheduled_date > ?", Date.current).order(scheduled_date: :asc).first
+  # 不正な日付は nil にする
+  def _parse_date(raw)
+    return if raw.blank?
+    Date.parse(raw) rescue nil
   end
 end
