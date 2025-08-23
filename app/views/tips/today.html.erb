@@ -6,17 +6,29 @@
       <%= @tip.content %>
     </h1>
 
-    <%= link_to "このひとことで話してみる", practice_path(tip_id: @tip.id),
-          class: "block btn-primary text-center mt-6" %>
+    <%= link_to "このひとことで話してみる",
+                practice_path(tip_id: @tip.id),
+                class: "btn-primary mt-6 inline-flex w-full items-center justify-center text-center hover:bg-[#FF9F2E]" %>
 
-    <div class="flex justify-between mt-4 text-label-sm text-accentBlue">
-      <% if @prev_tip %>
-        <%= link_to "前のひとこと", today_path(date: @prev_tip.scheduled_date) %>
-      <% end %>
-      <% if @next_tip %>
-        <%= link_to "次のひとこと", today_path(date: @next_tip.scheduled_date) %>
-      <% end %>
-    </div>
+
+<div class="flex justify-between mt-4">
+  <div>
+    <% if @prev_tip %>
+      <%= link_to "◀ 前のひとこと",
+        today_path(date: @prev_tip.scheduled_date),
+        class: "px-4 py-2 rounded-full border border-blue-500 text-blue-600 text-label-sm font-medium hover:bg-blue-50 transition" %>
+    <% end %>
+  </div>
+
+  <div>
+    <% if @next_tip %>
+      <%= link_to "次のひとこと ▶",
+        today_path(date: @next_tip.scheduled_date),
+        class: "px-4 py-2 rounded-full border border-blue-500 text-blue-600 text-label-sm font-medium hover:bg-blue-50 transition" %>
+    <% end %>
+  </div>
+</div>
+
   <% else %>
     <p class="text-body-md text-textSecondary">本日のひとことは準備中です</p>
   <% end %>

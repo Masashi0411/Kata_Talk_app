@@ -4,7 +4,9 @@
 @theme {
   /* Colors */
   --color-background: #F8F9FA;
-  --color-primaryOrange: #FFB347;
+  /* 👇 bg-primary で使えるように primary を追加 */
+  --color-primary: #FFB347;
+  --color-primaryOrange: #FFB347; /* 互換で残してOK */
   --color-accentBlue: #4A90E2;
   --color-neutralGray: #E0E0E0;
   --color-surface: #FFFFFF;
@@ -18,24 +20,44 @@
   /* Shadow */
   --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
 
-  /* Typography (必要なら) */
-  --text-heading-lg: 20px;
-  --leading-heading-lg: 28px;
-  --text-body-md: 14px;
-  --leading-body-md: 20px;
-  --text-label-sm: 12px;
-  --leading-label-sm: 16px;
+  /* Typography（v4は font-size/line-height で宣言） */
+  --font-size-heading-lg: 20px;
+  --line-height-heading-lg: 28px;
+
+  --font-size-body-md: 14px;
+  --line-height-body-md: 20px;
+
+  --font-size-label-sm: 12px;
+  --line-height-label-sm: 16px;
 }
 
 /* 便利クラス（任意） */
 @layer components {
+  /* ボタンのベース文字（14/20, Medium） */
+  .btn-text {
+    @apply text-body-md leading-[20px] font-medium;
+  }
+
   .btn-primary {
-    @apply w-full h-12 rounded-lg bg-primaryOrange text-white text-body-md font-medium;
+    @apply inline-flex items-center justify-center w-full
+           /* ガイドは radius-lg=16px。rounded-lg を使う */
+           rounded-lg bg-primary text-white font-semibold
+           h-12 px-4; /* 48px 高 */
+    /* 行高さは .btn-text に寄せるか単行を想定するなら不要でも可 */
+    @apply btn-text;
   }
+
   .btn-secondary {
-    @apply w-full h-12 rounded-lg bg-neutralGray text-textPrimary text-body-md font-medium;
+    @apply w-full h-12 rounded-lg bg-neutralGray text-textPrimary;
+    @apply btn-text;
   }
-  .card {
-    @apply bg-surface rounded-lg shadow-sm border border-neutralGray;
+
+  /* 前後ナビ（アウトライン・pill） */
+  .nav-pill {
+    @apply inline-flex items-center justify-center
+           px-4 h-10
+           rounded-full border border-accentBlue text-accentBlue
+           hover:bg-blue-50 transition;
+    @apply btn-text; /* 文字14/20に統一 */
   }
 }

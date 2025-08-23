@@ -7,7 +7,7 @@
   <div class="flex gap-4 mb-6">
     <%= link_to "新着順", tips_path(order: :recent),
           class: "tab #{params[:order] != 'likes' ? 'active' : ''}" %>
-    <%= link_to "いいね順", tips_path(order: :likes),
+    <%= link_to "投稿数", tips_path(order: :likes),
           class: "tab #{params[:order] == 'likes' ? 'active' : ''}" %>
   </div>
 

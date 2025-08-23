@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   resources :tips, only: [ :index, :show ]
 
   # 今日のひとこと（今日 or 最寄りTipを1件表示）
-  get "today", to: "tips#today"
+  get "/today", to: "tips#show_today", as: :today
   get "drills",   to: "posts#index"    # みんなのひとこと（投稿一覧）
   get "dashboard", to: "pages#dashboard" # マイページ（仮）
 
