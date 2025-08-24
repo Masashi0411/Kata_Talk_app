@@ -1,12 +1,11 @@
 @import "tailwindcss";
 
-/* v4 方式のテーマ定義 */
+/* ===== Tailwind v4 tokens ===== */
 @theme {
   /* Colors */
   --color-background: #F8F9FA;
-  /* 👇 bg-primary で使えるように primary を追加 */
-  --color-primary: #FFB347;
-  --color-primaryOrange: #FFB347; /* 互換で残してOK */
+  --color-primary: #FFB347;          /* ← bg-primary 用に追加 */
+  --color-primaryOrange: #FFB347;
   --color-accentBlue: #4A90E2;
   --color-neutralGray: #E0E0E0;
   --color-surface: #FFFFFF;
@@ -20,44 +19,53 @@
   /* Shadow */
   --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
 
-  /* Typography（v4は font-size/line-height で宣言） */
+  /* Typography (v4は font-size/line-height) */
   --font-size-heading-lg: 20px;
   --line-height-heading-lg: 28px;
 
-  --font-size-body-md: 14px;
+  --font-size-body-md: 14px;     /* ← これが text-body-md になります */
   --line-height-body-md: 20px;
 
-  --font-size-label-sm: 12px;
+  --font-size-label-sm: 12px;    /* ← これが text-label-sm になります */
   --line-height-label-sm: 16px;
 }
 
-/* 便利クラス（任意） */
+/* 明示ユーティリティ（保険：テーマ自動生成が効かない環境でも確実に作る） */
+@utility text-body-md {
+  font-size: var(--font-size-body-md);
+  line-height: var(--line-height-body-md);
+}
+@utility text-label-sm {
+  font-size: var(--font-size-label-sm);
+  line-height: var(--line-height-label-sm);
+}
+
+/* ===== Components ===== */
 @layer components {
   /* ボタンのベース文字（14/20, Medium） */
   .btn-text {
-    @apply text-body-md leading-[20px] font-medium;
+    @apply text-body-md font-medium;
   }
 
   .btn-primary {
     @apply inline-flex items-center justify-center w-full
-           /* ガイドは radius-lg=16px。rounded-lg を使う */
+           h-12 px-4
            rounded-lg bg-primary text-white font-semibold
-           h-12 px-4; /* 48px 高 */
-    /* 行高さは .btn-text に寄せるか単行を想定するなら不要でも可 */
+           transition;
     @apply btn-text;
   }
 
   .btn-secondary {
-    @apply w-full h-12 rounded-lg bg-neutralGray text-textPrimary;
+    @apply w-full h-12 rounded-lg bg-neutralGray text-textPrimary transition;
     @apply btn-text;
   }
 
   /* 前後ナビ（アウトライン・pill） */
   .nav-pill {
     @apply inline-flex items-center justify-center
-           px-4 h-10
+           h-10 px-4
            rounded-full border border-accentBlue text-accentBlue
            hover:bg-blue-50 transition;
-    @apply btn-text; /* 文字14/20に統一 */
+    @apply text-label-sm font-medium;
   }
 }
