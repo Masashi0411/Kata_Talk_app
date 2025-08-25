@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_08_16_132846) do
+ActiveRecord::Schema[7.2].define(version: 2025_08_24_094121) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -29,7 +29,11 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_16_132846) do
     t.date "scheduled_date", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "title", null: false, comment: "TIPのタイトル"
+    t.text "description", null: false, comment: "TIPの背景/説明文"
+    t.text "practice_description", null: false, comment: "TIPの練習用シナリオ/説明文"
     t.index ["scheduled_date"], name: "index_tips_on_scheduled_date", unique: true
+    t.check_constraint "char_length(title::text) <= 120", name: "tips_title_length_check"
   end
 
   add_foreign_key "posts", "tips"
