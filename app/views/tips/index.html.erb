@@ -16,11 +16,17 @@
     <% @tips.each_with_index do |tip, i| %>
       <%= link_to drills_path(tip_id: tip.id),
                   class: "block bg-surface shadow-sm rounded-lg p-4 border border-neutralGray" do %>
+        <!-- タイトル -->
         <h3 class="text-body-md font-semibold text-textPrimary">
-          <%= tip.content.truncate(30) %>
+          <%= h tip.title %>
         </h3>
+        <!-- 説明文（追加） -->
+        <p class="text-body-md text-textSecondary mt-2">
+          <%= h((tip.description.presence || "準備中")).truncate(80) %>
+        </p>
+        <!-- メタ情報（既存どおり） -->
         <p class="text-label-sm text-textSecondary mt-1">
-          投稿日: <%= tip.scheduled_date %>　投稿数: <%= tip.posts.count %>
+          投稿日: <%= l(tip.scheduled_date) %>　投稿数: <%= tip.posts.count %>
         </p>
       <% end %>
 

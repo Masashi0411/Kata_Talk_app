@@ -4,18 +4,21 @@
   <% if @tip.present? %>
     <section class="mb-4">
       <h1 class="text-heading-lg font-semibold text-textPrimary">みんなのひとこと</h1>
-      <p class="text-body-md text-textSecondary mt-1"><%= @tip.content %></p>
+      <!-- 旧: @tip.content → 新: @tip.title -->
+      <p class="text-body-md text-textSecondary mt-1"><%= h @tip.title %></p>
     </section>
 
     <section class="space-y-3">
       <% @posts.each do |post| %>
         <% highlighted = (@highlight_post_id.to_i == post.id) %>
+
+        <!-- ハイライトは青枠。青地にしたい場合は article の class を下のコメントのとおり変更 -->
         <article class="bg-surface shadow-sm rounded-lg p-4 border <%= highlighted ? 'border-accentBlue' : 'border-neutralGray' %>">
           <div class="flex items-center justify-between mb-2">
             <div class="flex items-center gap-2">
               <%= lucide_icon("circle-user", class: "w-5 h-5 text-textSecondary") %>
               <span class="text-label-sm text-textSecondary">
-                <%= post.display_nickname.presence || "名無しさん" %>
+                <%= h(post.display_nickname.presence || "名無しさん") %>
               </span>
             </div>
             <% if highlighted %>
@@ -23,16 +26,21 @@
             <% end %>
           </div>
 
-          <p class="text-body-md text-textPrimary whitespace-pre-wrap"><%= post.content %></p>
+          <!-- ユーザー入力は必ずエスケープ -->
+          <p class="text-body-md text-textPrimary whitespace-pre-wrap"><%= h post.content %></p>
 
           <div class="flex items-center justify-between mt-3">
-            <span class="text-label-sm text-textSecondary"><%= l(post.created_at, format: :short) %></span>
+            <!-- JSTで表示（アプリ設定が未調整でも確実に日本時間で出す） -->
+            <span class="text-label-sm text-textSecondary">
+              <%= l(post.created_at.in_time_zone("Tokyo"), format: :short) %>
+            </span>
             <div class="flex items-center gap-1 text-textSecondary">
               <%= lucide_icon("heart", class: "w-4 h-4") %>
-              <span class="text-label-sm">0</span> <%# ← MVPではプレースホルダ %>
+              <span class="text-label-sm">0</span> <%# MVPではプレースホルダ %>
             </div>
           </div>
         </article>
+
       <% end %>
 
       <% if @posts.blank? %>
