@@ -10,6 +10,10 @@ module Myapp
 
     config.autoload_lib(ignore: %w[assets tasks])
 
+    config.time_zone = "Tokyo"          # 表示はJST
+    # DBはUTCのまま推奨（既定）: config.active_record.default_timezone = :utc
+
+
     # --- Basic 認証（本番のみ）。ENV 未設定ならミドルウェアを積まない ---
     if Rails.env.production?
       user = ENV["BASIC_AUTH_USERNAME"] || ENV["BASIC_AUTH_USER"]

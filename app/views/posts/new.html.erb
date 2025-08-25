@@ -5,18 +5,18 @@
     <h1 class="text-heading-lg font-semibold text-textPrimary">日常のひとコマで練習</h1>
     <% if @tip %>
       <p class="text-body-md text-textSecondary mt-1">
-        今日のひとこと：<span class="text-textPrimary"><%= @tip.content %></span>
+        今日のひとこと：<span class="text-textPrimary"><%= h(@tip.title) %></span>
       </p>
     <% else %>
       <p class="text-body-md text-textSecondary mt-1">投稿対象のひとことが見つかりません。</p>
     <% end %>
   </section>
 
-  <!-- シーン説明カード -->
+  <!-- シーン説明カード（Tip.practice_description を表示） -->
   <section class="bg-surface shadow-sm rounded-lg p-4 border border-neutralGray mb-4">
-    <p class="text-body-md text-textPrimary">
-      会議前のアイスブレイク。隣の人が同じペンを使っているのに気づいたとき、どう声をかけますか？
-    </p>
+    <div class="text-body-md text-textPrimary">
+      <%= simple_format(h(@tip&.practice_description.presence || "準備中")) %>
+    </div>
   </section>
 
   <% if flash[:notice] %>
@@ -27,22 +27,22 @@
   <% end %>
 
   <!-- ★ 投稿停止中の案内を追加 -->
-<% unless posts_enabled? %>
-  <div class="mb-4 p-3 rounded bg-neutralGray text-label-sm text-textSecondary">
-    現在、投稿は一時停止中です（画面表示や遷移のみ確認できます）。
-  </div>
-<% end %>
+  <% unless posts_enabled? %>
+    <div class="mb-4 p-3 rounded bg-neutralGray text-label-sm text-textSecondary">
+      現在、投稿は一時停止中です（画面表示や遷移のみ確認できます）。
+    </div>
+  <% end %>
 
   <%= form_with url: practice_path,
-              scope: :post,
-              method: :post,
-              data: { turbo: false },
-              class: "space-y-4" do |f| %>
+                scope: :post,
+                method: :post,
+                data: { turbo: false },
+                class: "space-y-4" do |f| %>
     <%= hidden_field_tag :tip_id, @tip&.id %>
 
     <!-- 自由入力 150字 -->
     <div>
-      <label class="block text-label-sm text-textSecondary mb-1">回答（150字）</label>
+      <label class="block text-label-sm text-textSecondary mb-1">あなたならどう話す？（150字以内）</label>
       <%= f.text_area :content,
             maxlength: 150,
             rows: 5,

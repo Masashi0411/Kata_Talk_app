@@ -4,7 +4,7 @@
 # Table name: tips
 #
 #  id                    :bigint           not null, primary key
-#  content               :text             not null
+#  content               :text             not null         # DEPRECATED: 近く削除予定
 #  scheduled_date        :date             not null, indexed (unique)
 #  title                 :string           not null
 #  description           :text             not null
@@ -19,6 +19,7 @@
 # NOTE:
 #  - 1日1TIPの運用前提。前後ナビ（previous/next）や「今日のTIP」取得を想定。
 #  - posts が紐づくため、削除時は関連もまとめて削除する。
+#  - 表示/入力は title, description, practice_description を中核として利用する。
 class Tip < ApplicationRecord
   TITLE_MAX = 120
 
@@ -27,10 +28,11 @@ class Tip < ApplicationRecord
 
   # バリデーション
   validates :scheduled_date, presence: true, uniqueness: true
-  validates :content, presence: true
   validates :title, presence: true, length: { maximum: TITLE_MAX }
   validates :description, presence: true
   validates :practice_description, presence: true
+  # content は移行完了後にカラム自体を削除予定のため、ここではバリデーションしない
+  # TODO: content カラム削除後、このコメントを除去する
 
   # スコープ（よく使うクエリ）
   scope :ordered, -> { order(scheduled_date: :asc) }

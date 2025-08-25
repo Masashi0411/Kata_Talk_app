@@ -1,34 +1,45 @@
 <%= render "shared/common_header" %>
 
-<main class="p-4">
+<main class="p-4 pb-24">
   <% if @tip.present? %>
-    <h1 class="text-heading-lg font-semibold text-textPrimary mb-4">
-      <%= @tip.content %>
+    <!-- ページ見出し -->
+    <h1 class="text-heading-lg font-semibold text-textPrimary text-center mb-4">
+      今日のひとこと
     </h1>
 
+    <!-- TIPカード（タイトル＋説明） -->
+    <section class="rounded-2xl bg-gray-50 p-6 mb-10">
+      <h2 class="text-xl font-semibold text-textPrimary text-center mb-3">
+        <%= h @tip.title %>
+      </h2>
+      <div class="text-body-md text-textSecondary leading-relaxed">
+        <%= simple_format(h(@tip.description.presence || "準備中")) %>
+      </div>
+    </section>
+
+    <!-- 練習へ -->
     <%= link_to "このひとことで話してみる",
                 practice_path(tip_id: @tip.id),
                 class: "btn-primary mt-6 inline-flex w-full items-center justify-center text-center hover:bg-[#FF9F2E]" %>
 
+    <!-- 前後ナビ -->
+    <div class="flex justify-between mt-4">
+      <div>
+        <% if @prev_tip %>
+          <%= link_to "＜ 前のひとこと",
+                      today_path(date: @prev_tip.scheduled_date),
+                      class: "px-4 py-2 rounded-full border border-blue-500 text-blue-600 text-label-sm font-medium hover:bg-blue-50 transition" %>
+        <% end %>
+      </div>
 
-<div class="flex justify-between mt-4">
-  <div>
-    <% if @prev_tip %>
-      <%= link_to "◀ 前のひとこと",
-        today_path(date: @prev_tip.scheduled_date),
-        class: "px-4 py-2 rounded-full border border-blue-500 text-blue-600 text-label-sm font-medium hover:bg-blue-50 transition" %>
-    <% end %>
-  </div>
-
-  <div>
-    <% if @next_tip %>
-      <%= link_to "次のひとこと ▶",
-        today_path(date: @next_tip.scheduled_date),
-        class: "px-4 py-2 rounded-full border border-blue-500 text-blue-600 text-label-sm font-medium hover:bg-blue-50 transition" %>
-    <% end %>
-  </div>
-</div>
-
+      <div>
+        <% if @next_tip %>
+          <%= link_to "次のひとこと ＞",
+                      today_path(date: @next_tip.scheduled_date),
+                      class: "px-4 py-2 rounded-full border border-blue-500 text-blue-600 text-label-sm font-medium hover:bg-blue-50 transition" %>
+        <% end %>
+      </div>
+    </div>
   <% else %>
     <p class="text-body-md text-textSecondary">本日のひとことは準備中です</p>
   <% end %>
