@@ -1,5 +1,7 @@
 <!-- app/views/pages/home.html.erb -->
 <!-- トップページ：話すのがちょっと楽になるアプリ -->
+<%= render "shared/common_header" %>
+
 <div class="min-h-[70vh] flex items-center justify-center px-4">
   <div class="max-w-2xl text-center">
     <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">
@@ -12,14 +14,29 @@
     <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
       <%= link_to "今日のひとことをはじめる",
                   today_path,
-                  class: "inline-flex items-center justify-center rounded-xl px-5 py-3 text-base font-medium
-                          bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2
-                          focus:ring-blue-600 transition" %>
+                  class: "btn-primary mt-6 inline-flex w-full items-center justify-center text-center text-base hover:bg-[#FF9F2E]" %>
 
       <%= link_to "みんなのひとことを見る",
                   drills_path,
-                  class: "inline-flex items-center justify-center rounded-xl px-5 py-3 text-base font-medium
-                          border border-gray-300 hover:bg-gray-50 text-gray-800 transition" %>
+                  class: "w-full h-12 rounded-lg bg-neutralGray text-textPrimary flex items-center justify-center text-base" %>
     </div>
+
+    <!-- 規約リンク -->
+    <div class="mt-6 flex items-center justify-center gap-4 text-sm">
+      <%= link_to "利用規約", "#", class: "text-blue-600 hover:underline" %>
+      <span class="text-gray-300">｜</span>
+      <%= link_to "プライバシーポリシー", "#", class: "text-blue-600 hover:underline" %>
+    </div>
+
+<!-- 広告枠（ダミー） -->
+<div class="mt-8 flex justify-center">
+  <%= link_to "#",
+    class: "w-full max-w-3xl bg-neutralGray/20 text-center py-12 rounded-lg flex items-center justify-center text-lg text-textPrimary" do %>
+    Ad Banner
+  <% end %>
+</div>
+
   </div>
 </div>
+
+<%= render "shared/common_footer" %>
