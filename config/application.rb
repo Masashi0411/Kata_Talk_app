@@ -12,7 +12,7 @@ module Myapp
 
     config.time_zone = "Tokyo"          # 表示はJST
     # DBはUTCのまま推奨（既定）: config.active_record.default_timezone = :utc
-
+    config.i18n.default_locale = :ja
 
     # --- Basic 認証（本番のみ）。ENV 未設定ならミドルウェアを積まない ---
     if Rails.env.production?
