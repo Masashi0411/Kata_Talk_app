@@ -20,6 +20,20 @@
                   drills_path,
                   class: "w-full h-12 rounded-lg bg-neutralGray text-textPrimary flex items-center justify-center text-base" %>
     </div>
+    <%= link_to "ログイン", new_user_session_path %>
+    <span class="text-gray-300">｜</span>
+    <%= link_to "新規登録", new_user_registration_path %>
+    <span class="text-gray-300">｜</span>
+    <%# これが一番堅牢。Turbo でも Rails でも素直に動く %>
+    <%#= button_to "ログアウト",
+                  destroy_user_session_path,
+                  method: :delete,
+                  form: { data: { turbo: true } },   # 省略可（デフォルトでtrue）
+                  class: "px-3 py-1 rounded border" %>
+    <%= button_to "ログアウト",
+      destroy_user_session_path,
+      method: :delete,
+      data: { turbo: true } %>
 
     <!-- 規約リンク -->
     <div class="mt-6 flex items-center justify-center gap-4 text-sm">
