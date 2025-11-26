@@ -17,9 +17,9 @@ class TipsController < ApplicationController
       when :likes
         # 投稿数の多い順（NULL 安全のため LEFT JOIN）。N+1 を避けるため includes は不要。
         Tip.left_joins(:posts)
-           .select("tips.*, COUNT(posts.id) AS posts_count")
-           .group(:id)
-           .order("COUNT(posts.id) DESC")
+          .select("tips.*, COUNT(posts.id) AS posts_count")
+          .group(:id)
+          .order("COUNT(posts.id) DESC")
       else
         # 既定: 日付の新しい順
         Tip.order(scheduled_date: :desc)
@@ -33,14 +33,21 @@ class TipsController < ApplicationController
   end
 
   # 今日/任意日表示
-  # GET /tips/today?date=2025-08-26
   def show_today
     base_date = _parse_date(params[:date]) || Time.zone.today
-    @tip = Tip.on(base_date).first
+    day = base_date.day
+
+    @tip = Tip.find_by(day_of_month: day)
+    @tip ||= Tip.order("RANDOM()").first   # 暫定フォールバック
+
+    # TODO: PR4 で削除すること
+    Rails.logger.info "TIP lookup: day=#{day}, hit=#{@tip.present?}"
+
     if @tip
       @prev_tip = Tip.previous_of(@tip)
       @next_tip = Tip.next_of(@tip)
     end
+
     render :today
   end
 
